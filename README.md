@@ -1,0 +1,1 @@
+Kanban project made with Django
