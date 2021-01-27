@@ -65,7 +65,6 @@ class Field(models.Model):
     positionY = models.IntegerField()
     rowspan = models.IntegerField(default=1)
     colspan = models.IntegerField(default=1)
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)
 
 
 class Item(models.Model):
@@ -83,5 +82,3 @@ class Item(models.Model):
         default=EPICS
     )
     content = models.TextField(default="")
-    field = models.ForeignKey(Field, on_delete=models.CASCADE)
-    
