@@ -6,7 +6,10 @@ from .models import Sheet, Field
 # Usable functions.
 
 
-def generate_kanban(fields):
+def generate_kanban(table_id):
+    sheet = Sheet.objects.get(pk=table_id)
+    fields = Field.objects.filter(sheet=table_id)
+
     layout = []
     fields.order_by('positionY', 'positionX')
 
@@ -24,8 +27,11 @@ def generate_kanban(fields):
             pointer[0] = f.positionX - 1
 
     kanban = {
-        'objects': fields,
-        'layout': layout
+        'sheet': sheet,
+        'fields': {
+            'objects': fields,
+            'layout': layout
+        }
     }
 
     return kanban
@@ -60,13 +66,21 @@ def view_table(request, table_id):
     }
 
     """
-    sheet = Sheet.objects.get(pk=table_id)
-    fields = Field.objects.filter(sheet=table_id)
 
     template = loader.get_template('kanban.html')
-    context = {
-        'sheet': sheet,
-        'fields': generate_kanban(fields)
-    }
+    context = generate_kanban(table_id)
 
     return HttpResponse(template.render(context, request))
+
+
+def editor(request, editor_mode, editor_table=0):
+    template = loader.get_template("editor.html")
+    context = {}
+    if editor_mode == "create":
+        return HttpResponse("Create mode")
+    elif editor_mode == "edit":
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse("No mode selected")
+
+
