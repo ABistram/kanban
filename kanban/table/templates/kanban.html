@@ -1,0 +1,7 @@
+<div id="kanban">
+    <h3>{{sheet}}</h3>
+    {{fields.layout}}
+    {% for r in fields.layout %}
+        <p>{% for c in r %}{{ c }} {% endfor %}</p>
+    {% endfor %}
+</div>

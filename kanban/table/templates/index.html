@@ -1,8 +1,8 @@
 {% if tables %}
     <p>Available tables:</p>
     <ul>
-    {% for table in table_list %}
-        <li><a href="/tables/{{table.id}}">{{table.title}}</a></li>
+    {% for table in tables %}
+        <li><a href="/table/{{table.id}}">{{table.title}}</a></li>
     {% endfor %}
     </ul>
 {% else %}

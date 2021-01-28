@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 """
-Table
+Sheet
 -id(PK)
 -title
 -sizeX
@@ -72,6 +72,8 @@ class Field(models.Model):
     sheet = models.ForeignKey('Sheet', on_delete=models.CASCADE)
 
     def __str__(self):
+        if self.field_type == "LB" or self.field_type == "MX":
+            return self.label
         return self.name
 
 
