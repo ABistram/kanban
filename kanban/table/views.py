@@ -13,7 +13,7 @@ def generate_kanban(fields):
     for f in fields:
         pointer = [f.positionX - 1, f.positionY - 1]
         for y in range(f.rowspan):
-            if len(layout) - 1 < pointer[1]:
+            while len(layout) - 1 < pointer[1]:
                 layout.append([])
             for x in range(f.colspan):
                 while len(layout[pointer[1]]) - 1 < pointer[0]:
