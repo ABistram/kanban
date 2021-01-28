@@ -1,8 +1,33 @@
+<style>
+.center{
+margin-left:auto;
+margin-right:auto;
+}
+table{
+width: 70%;
+}
+td {
+border: 1px solid black;
+font-size: 23px;
+}
+table{
+border-collapse: collapse;
+}
+h3 {
+text-align: center;
+}
+</style>
 <a href="/table">Back to kanban list</a>
 <div id="kanban">
     <h3>{{sheet}}</h3>
     {{fields.layout}}
-    {% for r in fields.layout %}
-        <p>{% for c in r %}{{ c }} {% endfor %}</p>
-    {% endfor %}
+    <table class="center">
+        {% for r in fields.layout %}
+        <tr>
+            {% for c in r %}
+            <td>{{ c }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
 </div>

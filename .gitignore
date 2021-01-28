@@ -4,3 +4,4 @@
 /shelf/
 /workspace.xml
 **/*.pyc
+.DS_Store

@@ -1,10 +1,32 @@
+<style>
+.center{
+margin-left:auto;
+margin-right:auto;
+}
+table{
+width: 50%;
+}
+table{
+border-collapse: collapse;
+}
+td {
+border: 1px solid black;
+font-size: 23px;
+text-align: center;
+}
+</style>
+
 {% if tables %}
-    <p>Available tables:</p>
-    <ul>
+<table class="center">
+    <tr>
+        <th>Available tables:</th>
+    </tr>
     {% for table in tables %}
-        <li><a href="/table/{{table.id}}">{{table.title}}</a></li>
+    <tr>
+        <td class><a href="/table/{{table.id}}">{{table.title}}</a></td>
+    </tr>
     {% endfor %}
-    </ul>
+</table>
 {% else %}
-    <p>No tables found</p>
+<p>No tables found</p>
 {% endif %}
