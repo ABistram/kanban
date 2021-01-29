@@ -11,6 +11,7 @@ def generate_kanban(table_id):
     fields = Field.objects.filter(sheet=table_id)
 
     layout = []
+    layout_str = ''
     fields.order_by('positionY', 'positionX')
 
     for f in fields:
@@ -26,11 +27,18 @@ def generate_kanban(table_id):
             pointer[1] += 1
             pointer[0] = f.positionX - 1
 
+    for r in layout:
+        layout_str += '\"'
+        for i in r:
+            layout_str += "%s " % i
+        layout_str += 'add_column\"\n'
+
     kanban = {
         'sheet': sheet,
         'fields': {
             'objects': fields,
-            'layout': layout
+            'layout': layout,
+            'layout_str': layout_str
         }
     }
 
@@ -78,9 +86,10 @@ def editor(request, editor_mode, editor_table=0):
     context = {}
     if editor_mode == "create":
         return HttpResponse("Create mode")
-    elif editor_mode == "edit":
+    elif editor_mode == "edit" and editor_table != 0:
+        context = generate_kanban(editor_table)
         return HttpResponse(template.render(context, request))
     else:
-        return HttpResponse("No mode selected")
+        return HttpResponse("No mode or no table selected")
 
 

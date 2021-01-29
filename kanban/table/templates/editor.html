@@ -2,11 +2,18 @@
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'table/editor-style.css' %}">
     <script src="{% static 'table/editor-scripts.js' %}"></script>
+    <style>
+        .container {
+            grid-template: {% autoescape off %}{{fields.layout_str}}{% endautoescape %};
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div draggable="true" class="box">A</div>
-        <div draggable="true" class="box">B</div>
-        <div draggable="true" class="box">C</div>
+        {% for r in fields.layout %}
+            {% for i in r%}
+                <div draggable="true" class="box" style="grid-area: {{i}}">{{i}}</div>
+            {% endfor %}
+        {% endfor %}
     </div>
 </body>
