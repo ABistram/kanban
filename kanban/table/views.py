@@ -3,42 +3,95 @@ from django.http import HttpResponse
 from django.template import loader
 from .models import Sheet, Field
 
-# Usable functions.
+# Usable functions
+
+
+def generate_parent_structure(objects, parent=None):
+    with_parent = {}
+    structure = {}
+
+    for o in objects:
+        if o.parent is None or o.parent == parent:
+            structure[o] = {}
+        else:
+            if o.parent not in with_parent:
+                with_parent[o.parent] = []
+            with_parent[o.parent].append(o)
+
+    for k, v in with_parent.items():
+        structure[k] |= generate_parent_structure(v, k)
+
+    return structure
+
+
+def get_div_layout(layout):
+    div_layout = ""
+
+    for k, v in layout.items():
+        div_layout += """
+    <div draggable="true" class="box %s" style="grid-area:%s">%s
+    """ % (k.name, k.name, k.name)
+        if len(v) > 0:
+            div_layout += get_div_layout(v)
+        div_layout += "</div>"
+
+    return div_layout
+
+
+def get_layout_from_fields(fields, parent=None):
+    layout = []
+    ret_layout = {}
+    with_parent = {}
+    layout_str = ""
+
+    for f in fields:
+        if f.parent is None or f.parent.name == parent:
+            pointer = [f.positionX - 1, f.positionY - 1]
+            for y in range(f.rowspan):
+                while len(layout) - 1 < pointer[1]:
+                    layout.append([])
+                for x in range(f.colspan):
+                    while len(layout[pointer[1]]) - 1 < pointer[0]:
+                        layout[pointer[1]].append("")
+                    layout[pointer[1]][pointer[0]] = f.name
+                    pointer[0] += 1
+                pointer[1] += 1
+                pointer[0] = f.positionX - 1
+        else:
+            if f.parent not in with_parent:
+                with_parent[f.parent] = []
+            with_parent[f.parent].append(f)
+
+    for r in layout:
+        layout_str += '\"'
+        for i in r:
+            layout_str += "%s " % i
+        layout_str += '\"\n'
+
+    if parent is None:
+        ret_layout['container'] = layout_str
+    else:
+        ret_layout[parent] = layout_str
+
+    for k, f in with_parent.items():
+        ret_layout |= get_layout_from_fields(f, k.name)
+
+    return ret_layout
 
 
 def generate_kanban(table_id):
     sheet = Sheet.objects.get(pk=table_id)
     fields = Field.objects.filter(sheet=table_id)
 
-    layout = []
-    layout_str = ''
     fields.order_by('positionY', 'positionX')
-
-    for f in fields:
-        pointer = [f.positionX - 1, f.positionY - 1]
-        for y in range(f.rowspan):
-            while len(layout) - 1 < pointer[1]:
-                layout.append([])
-            for x in range(f.colspan):
-                while len(layout[pointer[1]]) - 1 < pointer[0]:
-                    layout[pointer[1]].append("")
-                layout[pointer[1]][pointer[0]] = f.name
-                pointer[0] += 1
-            pointer[1] += 1
-            pointer[0] = f.positionX - 1
-
-    for r in layout:
-        layout_str += '\"'
-        for i in r:
-            layout_str += "%s " % i
-        layout_str += 'add_column\"\n'
+    layout = get_layout_from_fields(fields)
 
     kanban = {
         'sheet': sheet,
         'fields': {
             'objects': fields,
             'layout': layout,
-            'layout_str': layout_str
+            'div_layout': get_div_layout(generate_parent_structure(fields))
         }
     }
 
@@ -91,5 +144,3 @@ def editor(request, editor_mode, editor_table=0):
         return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("No mode or no table selected")
-
-

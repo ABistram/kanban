@@ -70,6 +70,7 @@ class Field(models.Model):
     rowspan = models.IntegerField(default=1)
     colspan = models.IntegerField(default=1)
     sheet = models.ForeignKey('Sheet', on_delete=models.CASCADE)
+    parent = models.ForeignKey('Field', models.SET_NULL, null=True)
 
     def __str__(self):
         if self.field_type == "LB" or self.field_type == "MX":

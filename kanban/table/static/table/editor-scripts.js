@@ -1,3 +1,7 @@
+function chechRectangle(e) {
+
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
 
     var dragSrcEl = null;

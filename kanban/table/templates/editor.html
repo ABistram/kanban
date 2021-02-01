@@ -3,17 +3,16 @@
     <link rel="stylesheet" type="text/css" href="{% static 'table/editor-style.css' %}">
     <script src="{% static 'table/editor-scripts.js' %}"></script>
     <style>
-        .container {
-            grid-template: {% autoescape off %}{{fields.layout_str}}{% endautoescape %};
-        }
+    {% for k,v in fields.layout.items %}
+        .{{k}} {
+            display: grid;
+            grid-template: {% autoescape off %}{{v}}{% endautoescape %};
+        }   
+    {% endfor %}
     </style>
 </head>
 <body>
-    <div class="container">
-        {% for r in fields.layout %}
-            {% for i in r%}
-                <div draggable="true" class="box" style="grid-area: {{i}}">{{i}}</div>
-            {% endfor %}
-        {% endfor %}
-    </div>
+<div class="container">
+{% autoescape off %}{{fields.div_layout}}{% endautoescape %}
+</div>
 </body>
