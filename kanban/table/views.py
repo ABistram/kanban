@@ -1,9 +1,25 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import Sheet, Field
+from .models import Sheet, Field, Style
 
 # Usable functions
+
+
+def get_objects_styles(objects):
+    style_dict = {}
+    for o in objects:
+        style = o.style
+        style_dict[o] = {
+            'height': style.height,
+            'width': style.width,
+            'background-color': style.bgcolor,
+            'color': style.txtcolor,
+            'font-size': style.fontsize,
+            'border': style.border
+        }
+
+    return style_dict
 
 
 def generate_parent_structure(objects, parent=None):
@@ -29,8 +45,7 @@ def get_div_layout(layout):
 
     for k, v in layout.items():
         div_layout += """
-    <div draggable="true" class="box %s" style="grid-area:%s">%s
-    """ % (k.name, k.name, k.name)
+    <div draggable="true" class="box %s" style="grid-area:%s">%s""" % (k.name, k.name, k.name)
         if len(v) > 0:
             div_layout += get_div_layout(v)
         div_layout += "</div>"
@@ -89,7 +104,7 @@ def generate_kanban(table_id):
     kanban = {
         'sheet': sheet,
         'fields': {
-            'objects': fields,
+            'objects': get_objects_styles(fields),
             'layout': layout,
             'div_layout': get_div_layout(generate_parent_structure(fields))
         }
@@ -141,6 +156,7 @@ def editor(request, editor_mode, editor_table=0):
         return HttpResponse("Create mode")
     elif editor_mode == "edit" and editor_table != 0:
         context = generate_kanban(editor_table)
+        print(context['fields']['objects'])
         return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("No mode or no table selected")

@@ -10,6 +10,7 @@ Sheet
 -type(private/public)
 
 Field
+!!! POSITIONS are relative to parents
 -id(PK)
 -name
 -type
@@ -44,6 +45,7 @@ class Item(models.Model):
     )
     content = models.TextField(default="")
     field = models.ForeignKey('Field', on_delete=models.CASCADE)
+    style = models.ForeignKey('Style', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.content
@@ -71,6 +73,7 @@ class Field(models.Model):
     colspan = models.IntegerField(default=1)
     sheet = models.ForeignKey('Sheet', on_delete=models.CASCADE)
     parent = models.ForeignKey('Field', models.SET_NULL, null=True)
+    style = models.ForeignKey('Style', on_delete=models.CASCADE)
 
     def __str__(self):
         if self.field_type == "LB" or self.field_type == "MX":
@@ -96,3 +99,14 @@ class Sheet(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Style(models.Model):
+    # Stored as [number][unit]
+    name = models.CharField(max_length=30)
+    height = models.TextField()
+    width = models.TextField()
+    bgcolor = models.CharField(max_length=9)  # RGBA
+    txtcolor = models.CharField(max_length=7)
+    fontsize = models.TextField()
+    border = models.TextField()

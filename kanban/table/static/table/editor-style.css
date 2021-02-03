@@ -5,9 +5,10 @@
 
 .box {
     border: 1px solid #666;
-    background-color: #ddd;
-    padding: 10px;
+    background-color: #fff;
+    padding: 0;
     cursor: move;
+    min-height: 50px;
 }
 
 .box.over {

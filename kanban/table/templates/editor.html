@@ -9,6 +9,13 @@
             grid-template: {% autoescape off %}{{v}}{% endautoescape %};
         }   
     {% endfor %}
+    {% for k, v in fields.objects.items %}
+        .{{k.name}}{
+        {% for k,v in v.items %}
+            {{k}}: {{v}};
+        {% endfor %}
+        }
+    {% endfor %}
     </style>
 </head>
 <body>
