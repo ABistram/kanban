@@ -63,7 +63,7 @@ def view_table(request, table_id):
     sheet = Sheet.objects.get(pk=table_id)
     fields = Field.objects.filter(sheet=table_id)
 
-    template = loader.get_template('kanban.html')
+    template = loader.get_template('table/kanban.html')
     context = {
         'sheet': sheet,
         'fields': generate_kanban(fields)

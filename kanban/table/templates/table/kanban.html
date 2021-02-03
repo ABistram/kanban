@@ -1,0 +1,32 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'table/kanban-style.css' %}">
+<script>
+function setGrid(arg) {
+    let sheet = document.createElement('style');
+    let maxColumnSize=0;
+    for(var i = 0; i < arg.length; i++) {
+        if(arg[i].length>maxColumnSize) maxColumnSize = arg[i].length;
+    }
+    sheet.innerHTML = ".grid{ display: grid; grid-template-rows: repeat(auto-fill, 1fr); grid-template-columns: repeat("+maxColumnSize+", 1fr); grid-gap:0.25rem;grid-auto-flow: row;background: #999999;padding: 1.5rem; border-radius: 1rem;justify-content: stretch;}";
+    document.body.appendChild(sheet);
+}
+</script>
+<a href="/table">Back to kanban list</a>
+<body onload="setGrid({{fields.layout}})">
+    <h3>{{sheet}}</h3>
+    <div id="grid" class="grid">
+        {% for r in fields.layout %}
+        {% for c in r %}
+        {% if c != "" %}
+        <div class="record">
+            {{ c }}
+        </div>
+        {% else %}
+        <p></p>
+        {% endif %}
+        {% endfor %}
+        <div class="new-row"></div>
+        {% endfor %}
+    </div>
+        <a href="TODO LINK" class="button">Edit {{sheet}}</a>
+</body>
