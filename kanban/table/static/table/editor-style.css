@@ -3,14 +3,6 @@
     gap: 0;
 }
 
-.box {
-    border: 1px solid #666;
-    background-color: #fff;
-    padding: 0;
-    cursor: move;
+.editable {
     min-height: 50px;
-}
-
-.box.over {
-    border: 1px dotted #666;
 }

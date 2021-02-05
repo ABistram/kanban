@@ -1,66 +1,46 @@
-function chechRectangle(e) {
-
+function addchild(element) {
+    
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
-    var dragSrcEl = null;
-
-    function handleDragStart(e){
-        this.style.opacity = '0.4';
-
-        dragSrcEl = this;
+    editor = true;
+    if (editor) {
         
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.innerHTML);
-    }
 
-    function handleDragOver(e){
-        if (e.preventDefault){
-            e.preventDefault();
+        var elements = document.getElementsByClassName("editable");
+        console.log(elements);
+
+        for (var i = 0; i < elements.length; i++){
+            var removebutton = document.createElement("div");
+            removebutton.style.position = "relative";
+            removebutton.style.top = "0";
+            removebutton.style.right = "0";
+            removebutton.style.width = "12px";
+            removebutton.style.height = "12px"
+            removebutton.style.float = "right";
+            removebutton.innerHTML = "-";
+            elements[i].appendChild(removebutton);
+            
+            var addbutton = document.createElement("div");
+            addbutton.style.position = "relative";
+            addbutton.style.top = "0";
+            addbutton.style.right = "0";
+            addbutton.style.width = "12px";
+            addbutton.style.height = "12px"
+            addbutton.style.float = "right";
+            addbutton.innerHTML = "+";
+            elements[i].appendChild(addbutton);
+
+            var settingsbutton = document.createElement("div");
+            settingsbutton.style.position = "relative";
+            settingsbutton.style.top = "0";
+            settingsbutton.style.right = "0";
+            settingsbutton.style.width = "12px";
+            settingsbutton.style.height = "12px"
+            settingsbutton.style.float = "right";
+            settingsbutton.innerHTML = "S";
+            elements[i].appendChild(settingsbutton);
         }
-
-        e.dataTransfer.dropEffect = 'move';
-
-        return false;
     }
-
-    function handleDragEnter(e){
-        this.classList.add('over');
-    }
-
-    function handleDragLeave(e){
-        this.classList.remove('over');
-    }
-
-    function handleDrop(e){
-        if (e.stopPropagation){
-            e.stopPropagation();
-        }
-
-        if (dragSrcEl != this){
-            dragSrcEl.innerHTML = this.innerHTML;
-            this.innerHTML = e.dataTransfer.getData('text/html');
-        }
-        
-        return false;
-    }
-
-    function handleDragEnd(e){
-        this.style.opacity = '1';
-
-        items.forEach(function (item){
-            item.classList.remove('over');
-        });
-    }
-
-    let items = document.querySelectorAll('.container .box');
-    items.forEach(function(item){
-        item.addEventListener('dragstart', handleDragStart, false);
-        item.addEventListener('dragenter', handleDragEnter, false);
-        item.addEventListener('dragover', handleDragOver, false);
-        item.addEventListener('dragleave', handleDragLeave, false);
-        item.addEventListener('drop', handleDrop, false);
-        item.addEventListener('dragend', handleDragEnd, false);
-    });
 })

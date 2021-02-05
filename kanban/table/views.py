@@ -45,7 +45,7 @@ def get_div_layout(layout):
 
     for k, v in layout.items():
         div_layout += """
-    <div draggable="true" class="box %s" style="grid-area:%s">%s""" % (k.name, k.name, k.name)
+    <div class="editable %s" style="grid-area:%s">%s""" % (k.name, k.name, k.name)
         if len(v) > 0:
             div_layout += get_div_layout(v)
         div_layout += "</div>"
