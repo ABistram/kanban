@@ -40,7 +40,7 @@
             </tr>
             {% for table in tables %}
             <tr>
-                <td class><a href="/table/{{table.id}}">{{table.title}}</a></td>
+                <td class><a href="{% url 'view_table' table.id %}">{{table.title}}</a></td>
             </tr>
             {% endfor %}
         </table>

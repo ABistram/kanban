@@ -11,7 +11,7 @@ function setGrid(arg) {
     document.body.appendChild(sheet);
 }
 </script>
-<a href="/table">Back to kanban list</a>
+<a href="{% url 'index' %}">Back to kanban list</a>
 <body onload="setGrid({{fields.layout}})">
     <h3>{{sheet}}</h3>
     <div id="grid" class="grid">
