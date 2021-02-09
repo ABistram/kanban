@@ -1,6 +1,14 @@
 {% load static %}
-<head>
+{% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'table/editor-style.css' %}">
+    <script>
+        var tables = [];
+        {% autoescape off %}
+            {% for k, r in fields.layout.items %}
+                tables.push('{{ r|linebreaksbr }}')
+            {% endfor %}
+        {% endautoescape %}
+    </script>
     <script src="{% static 'table/editor-scripts.js' %}"></script>
     <style>
     {% for k,v in fields.layout.items %}
@@ -17,12 +25,29 @@
         }
     {% endfor %}
     </style>
-</head>
-<body>
-<div class="container">
-{% autoescape off %}{{fields.div_layout}}{% endautoescape %}
-</div>
+{% endblock %}
 
-<div id="edit_div">
-</div>
-</body>
+{% block content %}
+    <div class="container">
+    {% autoescape off %}{{fields.div_layout}}{% endautoescape %}
+    </div>
+
+    <div id="edit_div" class="popup">
+        <div class="popup_content">
+
+        </div>
+    </div>
+
+    <div id="add_div" class="popup">
+        <div class="popup_content">
+
+        </div>
+    </div>
+
+    <div id="remove_div" class="popup">
+        <div class="popup_content">
+            <h3>Do you want to remove <z id="remove_div_name"></z>?</h3>
+            <button id="yes_button">Yes</button> <button id="no_button">No</button>
+        </div>
+    </div>
+{% endblock %}

@@ -45,7 +45,7 @@ def get_div_layout(layout):
 
     for k, v in layout.items():
         div_layout += """
-    <div class="editable %s" style="grid-area:%s">%s""" % (k.name, k.name, k.name)
+    <div id="%s" class="editable %s" style="grid-area:%s">%s""" % (k.name, k.name, k.name, k.name)
         if len(v) > 0:
             div_layout += get_div_layout(v)
         div_layout += "</div>"
@@ -67,7 +67,7 @@ def get_layout_from_fields(fields, parent=None):
                     layout.append([])
                 for x in range(f.colspan):
                     while len(layout[pointer[1]]) - 1 < pointer[0]:
-                        layout[pointer[1]].append("")
+                        layout[pointer[1]].append("Default")
                     layout[pointer[1]][pointer[0]] = f.name
                     pointer[0] += 1
                 pointer[1] += 1
@@ -156,7 +156,6 @@ def editor(request, editor_mode, editor_table=0):
         return HttpResponse("Create mode")
     elif editor_mode == "edit" and editor_table != 0:
         context = generate_kanban(editor_table)
-        print(context['fields']['objects'])
         return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("No mode or no table selected")
