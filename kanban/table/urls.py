@@ -6,5 +6,5 @@ urlpatterns = [
     # ex: /table
     path('', views.index, name='index'),
     # ex: /table/3
-    path('<int:table_id>/', views.viewtable, name='viewtable')
+    path('<int:table_id>/', views.view_table, name='view_table')
 ]

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+    {% block styles %}
+        <style>
+        .center{
+        margin-left:auto;
+        margin-right:auto;
+        }
+        table{
+        width: 50%;
+        }
+        table{
+        border-collapse: collapse;
+        }
+        td {
+        border: 1px solid black;
+        font-size: 23px;
+        text-align: center;
+        }
+        </style>
+    {% endblock %}
+    {% block externals %}
+
+    {% endblock %}
+</head>
+
+<body>
+    {% block menu %}
+        <ul class="menu">
+            <li><a href="{% url 'index' %}">Kanban</a></li>
+            {#<li><a href="{% url 'editor' %}">Editor</a></li>#}
+        </ul>
+    {% endblock %}
+
+    {% block content %}
+        {% if tables %}
+        <table class="center">
+            <tr>
+                <th>Available tables:</th>
+            </tr>
+            {% for table in tables %}
+            <tr>
+                <td class><a href="{% url 'view_table' table.id %}">{{table.title}}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No tables found</p>
+        {% endif %}
+    {% endblock %}
+</body>
+</html>
+
