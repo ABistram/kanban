@@ -4,6 +4,9 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'Items', views.ItemViewSet)
+router.register(r'Fields', views.FieldViewSet)
+router.register(r'Sheets', views.SheetViewSet)
+router.register(r'Styles', views.StyleViewSheet)
 
 urlpatterns = [
     path('', include(router.urls)),

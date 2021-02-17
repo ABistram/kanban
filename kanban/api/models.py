@@ -1,17 +1,32 @@
 from django.db import models
 
 # Create your models here.
+EPICS = "EP"
+STORIES = "ST"
+OTHER = "OT"
+item_type_choices = [
+    (EPICS, "Epics"),
+    (STORIES, "Stories"),
+    (OTHER, "Other")
+]
+
+MIXED = "MX"
+LABEL = "LB"
+STICKER = "ST"
+field_type_choices = [
+    (LABEL, "Label"),
+    (STICKER, "Sticker"),
+    (MIXED, "Mixed")
+]
+PRIVATE = "PV"
+PUBLIC = "PB"
+privacy_type_choices = [
+    (PRIVATE, "Private"),
+    (PUBLIC, "Public")
+]
 
 
 class Item(models.Model):
-    EPICS = "EP"
-    STORIES = "ST"
-    OTHER = "OT"
-    item_type_choices = [
-        (EPICS, "Epics"),
-        (STORIES, "Stories"),
-        (OTHER, "Other")
-    ]
     item_type = models.CharField(
         max_length=32,
         choices=item_type_choices,
@@ -27,14 +42,6 @@ class Item(models.Model):
 
 class Field(models.Model):
     name = models.CharField(max_length=32)
-    MIXED = "MX"
-    LABEL = "LB"
-    STICKER = "ST"
-    field_type_choices = [
-        (LABEL, "Label"),
-        (STICKER, "Sticker"),
-        (MIXED, "Mixed")
-    ]
     field_type = models.CharField(
         max_length=32,
         choices=field_type_choices,
@@ -54,17 +61,12 @@ class Field(models.Model):
             return self.label
         return self.name
 
+    class Meta:
+        ordering = ['positionY', 'positionX']
+
 
 class Sheet(models.Model):
     title = models.CharField(max_length=100)
-    sizeX = models.IntegerField()
-    sizeY = models.IntegerField()
-    PRIVATE = "PV"
-    PUBLIC = "PB"
-    privacy_type_choices = [
-        (PRIVATE, "Private"),
-        (PUBLIC, "Public")
-    ]
     privacy_type = models.CharField(
         max_length=32,
         choices=privacy_type_choices,
@@ -84,3 +86,6 @@ class Style(models.Model):
     txtcolor = models.CharField(max_length=7)
     fontsize = models.TextField()
     border = models.TextField()
+
+    def __str__(self):
+        return self.name
