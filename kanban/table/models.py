@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 """
-Table
+Sheet
 -id(PK)
 -title
 -sizeX
@@ -28,21 +28,25 @@ Item
 """
 
 
-class Table(models.Model):
-    title = models.CharField(max_length=100)
-    sizeX = models.IntegerField()
-    sizeY = models.IntegerField()
-    PRIVATE = "PV"
-    PUBLIC = "PB"
-    privacy_type_choices = [
-        (PRIVATE, "Private"),
-        (PUBLIC, "Public")
+class Item(models.Model):
+    EPICS = "EP"
+    STORIES = "ST"
+    OTHER = "OT"
+    item_type_choices = [
+        (EPICS, "Epics"),
+        (STORIES, "Stories"),
+        (OTHER, "Other")
     ]
-    privacy_type = models.CharField(
+    item_type = models.CharField(
         max_length=32,
-        choices=privacy_type_choices,
-        default=PRIVATE
+        choices=item_type_choices,
+        default=EPICS
     )
+    content = models.TextField(default="")
+    field = models.ForeignKey('Field', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.content
 
 
 class Field(models.Model):
@@ -65,20 +69,29 @@ class Field(models.Model):
     positionY = models.IntegerField()
     rowspan = models.IntegerField(default=1)
     colspan = models.IntegerField(default=1)
+    sheet = models.ForeignKey('Sheet', on_delete=models.CASCADE)
+
+    def __str__(self):
+        if self.field_type == "LB" or self.field_type == "MX":
+            return self.label
+        return self.name
 
 
-class Item(models.Model):
-    EPICS = "EP"
-    STORIES = "ST"
-    OTHER = "OT"
-    item_type_choices = [
-        (EPICS, "Epics"),
-        (STORIES, "Stories"),
-        (OTHER, "Other")
+class Sheet(models.Model):
+    title = models.CharField(max_length=100)
+    sizeX = models.IntegerField()
+    sizeY = models.IntegerField()
+    PRIVATE = "PV"
+    PUBLIC = "PB"
+    privacy_type_choices = [
+        (PRIVATE, "Private"),
+        (PUBLIC, "Public")
     ]
-    item_type = models.CharField(
+    privacy_type = models.CharField(
         max_length=32,
-        choices=item_type_choices,
-        default=EPICS
+        choices=privacy_type_choices,
+        default=PRIVATE
     )
-    content = models.TextField(default="")
+
+    def __str__(self):
+        return self.title

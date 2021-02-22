@@ -1,0 +1,32 @@
+.record{
+  background: #08a5bd;
+  border: 1px solid black;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+.new-row{
+  grid-column-start: -1;
+}
+.center{
+margin-left:auto;
+margin-right:auto;
+}
+h3 {
+text-align: center;
+}
+.button {
+  background-color: #FF8000;
+  border: 1px solid black;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  left: 43%;
+  margin: 4px 2px;
+  position: absolute;
+  cursor: pointer;
+  border-radius: 1rem;
+}
