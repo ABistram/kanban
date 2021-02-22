@@ -10,5 +10,6 @@ router.register(r'Styles', views.StyleViewSheet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('request/kanban-structure/<int:table_id>', views.kanban_structure, name='kanban-structure'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
