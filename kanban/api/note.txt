@@ -1,0 +1,46 @@
+Endpoint: /api/request/kanban-structure
+Structure:
+{
+    "kanban_name": text,
+    "structure": {
+        "container": [
+            # one string - one row
+            # columns are separated by spaces
+            # blank spaces labeled as 'None'
+        ],
+        "Element1": [
+            # adding depth to kanban
+        ]
+    },
+    "styles": {
+        "Element1": {
+            "width": value,
+            "height": value,
+            "background-color": value,
+            "color": value,
+            "border": value,
+            "font-size": value,
+        }
+    },
+    "stickers": {
+        "Sticker1": {
+            "type": type,
+            "text": text
+        }
+    }
+}
+
+Endpoint: /api/put/insert-element
+Structure:
+{
+    "name": text,
+    "styles": {
+        "width": value,
+        "height": value,
+        "background-color": value,
+        "color": value,
+        "border": value,
+        "font-size": value,
+    }
+    "parent": name,
+}
