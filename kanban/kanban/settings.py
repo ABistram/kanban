@@ -25,7 +25,7 @@ SECRET_KEY = 'ui(!m87_vng@qdx$#s15r+6_-0+cn+=m32+8c3hux_n+pa_e_7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
